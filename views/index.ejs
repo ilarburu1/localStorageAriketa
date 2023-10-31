@@ -1,0 +1,43 @@
+<!doctype html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title><%=izenburua%></title>
+        <script>
+            window.onload=()=>{
+                let form=document.getElementById("formularioa")
+                form.onsubmit=(e)=>{
+                    e.preventDefault()
+                    let user={
+                        izena:document.getElementById("name").value,
+                        abizena:document.getElementById("abizena").value,
+                        emaila:document.getElementById("emaila").value
+                    }
+                    localStorage.setItem("bezeroak", JSON.stringify(user));
+                    e.target.submit();
+                }
+            }
+        </script>
+    </head>
+    <body>
+        EJS txantiloi kudeatzailetik
+        <ul>
+            <% bezeroak.forEach( function(bezeroa){%>
+                <form action="/ezabatu" method="post">
+                    <li>
+                        <span> <%= bezeroa.izena%><%= bezeroa.abizena%></span>
+                        <input type="hidden" name="id" value="<%= bezeroa.id%>">
+                        <button type="submit" class="ezabatu">[x]</button>
+                    </li>
+                </form>
+            <li>
+            <% }) %>
+        </ul>
+        <form action="/gehitu" method="post">
+            Izena: <input type="text" name="izena" id="izena"> 
+            Abizena: <input type="text" name="abizena" id="abizena">
+            Emaila: <input type="text" name="emaila" id="emaila">
+            <input type="submit" value="Submit">
+        </form>
+    </body>
+</html>
